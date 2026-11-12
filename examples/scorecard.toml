@@ -1,0 +1,85 @@
+# Example maintainability-scorecard configuration for a Python project.
+# Copy this file and adjust paths and project-specific blocks.
+
+[project]
+name = "example-package"
+# Repository-relative roots scanned for production Python files.
+source_roots = ["src"]
+# Optional: strip these dotted prefixes when resolving absolute imports.
+module_prefixes = ["mypkg"]
+
+[scope]
+# Glob patterns relative to each source root.  "**/*.py" includes nested files.
+include = ["**/*.py"]
+# Exclude generated or vendored trees here.
+exclude = []
+
+[thresholds]
+giant_function_lines = 150
+complexity = 20
+giant_file_lines = 500
+
+[tests]
+# Files under source_roots matching these patterns are test code.
+patterns = ["test_*.py", "conftest.py", "*_test_support.py", "**/testsupport/**"]
+# Additional test-only roots; every .py under them is test code.
+roots = []
+mock_helpers = ["MagicMock", "monkeypatch", "SimpleNamespace"]
+
+[fallbacks]
+# Counted in identifiers and string literals, case-insensitively, with word
+# boundaries.  "compat" only matches standalone compat or compat_/compat-.
+words = ["legacy", "compat", "retired", "historical", "deprecated"]
+contract_string_pattern = "[A-Za-z0-9_.-]+/v[0-9]+"
+
+[risk_tiers]
+# Risk distribution only; no stars or pass/fail. SIG/TÜViT-inspired complexity
+# and parameter boundaries; own_lines references tool defaults.
+complexity = [5, 10, 25]
+own_lines = [100, 150]
+parameters = [3, 5, 7]
+
+# Optional fixed or snapshot module index. Exactly one of fixed_file/repo_path.
+# [module_index]
+# fixed_file = "/absolute/path/to/module-index.toml"
+# path_base = "src"
+# repo_path = "docs/module-index.toml"
+
+[hotspots]
+window_days = 90
+exclude_commits = []
+# exclude_subject_regex = "format|generated"
+
+# Optional: shared mutable state objects.
+# [shared_state]
+# receiver_names = ["runtime", "rt"]
+# receiver_attributes = ["runtime", "_runtime"]
+# file_threshold = 3
+
+# Optional: direct calls to external write interfaces.
+# The adapter files are excluded from the call-site count and MUST exist in
+# every measured snapshot; a missing file is a hard error.
+# [write_interfaces]
+# call_names = ["signed_post", "signed_delete"]
+# adapter_files = ["src/gateway/exchange_client.py"]
+
+# Optional: custom counters.  Each entry needs exactly one of regex/call_names.
+# [[custom_counters]]
+# name = "mark_degraded_calls"
+# call_names = ["mark_degraded", "_mark_degraded"]
+# description = "fallback/degraded paths"
+#
+# [[custom_counters]]
+# name = "todo_markers"
+# regex = "TODO"
+
+# Optional snapshots.  Command-line --snapshot LABEL=REV overrides this list.
+# [[snapshots]]
+# label = "baseline"
+# revision = "<base-commit>"
+# reason = "before refactor"
+#
+# [[snapshots]]
+# label = "current"
+# revision = "main"
+# reason = "after refactor"
