@@ -1,5 +1,7 @@
 # maintainability-scorecard
 
+> 实战工坊 / [Field Lab](https://github.com/liuyejinghong/field-lab) 的一部分：在真实项目里做出来、持续打磨的 AI Agent 工具。
+
 给 Python 项目做一次结构体检。它扫描代码和 Git 历史，找出最长、最复杂的函数，模块之间的循环依赖和改动最频繁的文件，并统计异常处理、兼容代码和测试写法。
 
 同一个仓库可以选多个提交一起扫，结果按提交并排列在一张表里。重构前留一份底，重构后再扫一次，就能看到结构变化。
